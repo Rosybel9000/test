@@ -1,0 +1,25 @@
+   1  MENU
+--	A home button
+--	B fixed when scrolling 
+
+   2  Homepage
+--	A The homepage shows 10 records from a public API of choice ?? [nanidafuq?]
+--	B All items should be clickable and link to correct page
+--	C there should be sort thing
+
+   3  Page
+--	A Shows all the details retrieved from the public API regarding the selected record??
+--	B  Detail page shows 3 relevant other items on this page based on provided data from
+the chosen public API.
+
+   4  Footer
+--	A generated sitemap ??
+
+   5  Randomizerpage
+--	A Randomizer page shows a random item.
+--	B Randomizer page contains a button to show another random item.
+
+   6  notes to self
+1. it should look ok and work on phone too
+2. R on the menu means show random item
+
