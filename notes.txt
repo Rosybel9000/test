@@ -23,3 +23,9 @@ the chosen public API.
 1. it should look ok and work on phone too
 2. R on the menu means show random item
 
+temp time log 
+-1hour looking at vue vids
+1 hour installing and drawing out the png + maing notes
+
+(make sure ur in the right map)
+yarn start
