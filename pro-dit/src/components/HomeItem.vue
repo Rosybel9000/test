@@ -10,6 +10,7 @@
       />
       <div class="catcard-title">
         <h2>{{ name }}</h2>
+        <span v-if="sortKey">{{ sortKey }} : {{ sortValue }}</span>
       </div>
     </a>
   </div>
@@ -20,7 +21,7 @@ import axios from "axios";
 
 export default {
   name: "HomeItem",
-  props: ["name", "id"],
+  props: ["name", "id", "sortKey", "sortValue"],
   data() {
     return {
       src: null,

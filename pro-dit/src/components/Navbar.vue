@@ -1,9 +1,7 @@
 <template>
-  <!-- still have to make the nav stickey -->
-
   <nav class="nav">
     <div class="dropdown">
-      <button class="dropbtn">Dropdown</button>
+      <button class="dropbtn">CATegories</button>
       <div class="dropdown-content">
         <router-link v-for="link of navLinks" :key="link.name" :to="link.to">{{
           link.name
@@ -11,15 +9,14 @@
       </div>
     </div>
 
-    <!-- pic of home goes here links to home -->
     <div class="home-oval">
-      <!-- <img src="./../assets/logo.png" alt="home" width="50px" height="50px" /> -->
-      <router-link class="home-link" to="/">home</router-link>
+      <router-link class="home-link" to="/">HOME</router-link>
     </div>
 
-    <!-- bring up random product page -->
     <div class="dropbown">
-      <button class="dropbtn">Random</button>
+      <router-link to="/randomcat">
+        <button class="dropbtn">Random</button>
+      </router-link>
     </div>
   </nav>
 </template>
@@ -30,8 +27,9 @@ export default {
   data: () => {
     return {
       navLinks: [
-        { name: "One link", to: "/" },
-        { name: "To rule", to: "/poo" },
+        { name: "home", to: "/" },
+        { name: "my fav cat", to: "/details?id=awir" },
+        { name: "random", to: "/randomcat" },
       ],
     };
   },
@@ -39,14 +37,12 @@ export default {
 </script>
 
 <style scoped>
-/* still have to make the nav sticky */
 .nav {
   display: flex;
   justify-content: space-between;
-  /* position: fixed; */
-  /* width: 100%; */
-  /* top: 0; */
-  background-color: rgb(192, 29, 192);
+  position: sticky;
+  top: 0;
+  background-color: #bb00bb;
 }
 
 .dropbtn {
@@ -93,7 +89,7 @@ export default {
 .home-oval {
   width: 100px;
   height: 50px;
-  background: red;
+  background: indigo;
   border-radius: 100px / 50px;
   line-height: 50px;
   font-size: 16px;
@@ -104,6 +100,7 @@ export default {
   display: block;
   height: 100%;
   width: 100%;
-  /* color: aliceblue; */
+  color: aliceblue;
+  text-decoration: none;
 }
 </style>

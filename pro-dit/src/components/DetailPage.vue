@@ -1,16 +1,27 @@
 <template>
-  <section class="d-wrap">
+  <section>
     <div class="details">
-      <img
-        :src="src"
-        :alt="currentCat.name"
-        :title="currentCat.name + ' ' + 'the mowae'"
-        width="200px"
-        height="200px"
-      />
-      <h2>{{ currentCat.name }}</h2>
-      <p>{{ currentCat.temperament }}</p>
-      <p>{{ currentCat.description }}</p>
+      <div class="details-img">
+        <img
+          :src="src"
+          :alt="currentCat.name"
+          :title="currentCat.name + ' ' + 'meow'"
+          class="img-cat"
+        />
+      </div>
+      <div class="details-info">
+        <h2>{{ currentCat.name }}</h2>
+        <p>{{ currentCat.temperament }}</p>
+        <p>{{ currentCat.description }}</p>
+        <p>This cats origin is {{ currentCat.origin }}</p>
+        <p>
+          To see more info on this cat follow this
+          <a :href="currentCaturlH">link</a>
+        </p>
+        <p>
+          Or check out it's wikipedia page <a :href="currentCaturlWiki">here</a>
+        </p>
+      </div>
     </div>
 
     <div v-if="relatedCats.length > 0" class="related">
@@ -22,12 +33,14 @@
         }}
         also {{ temperament.toLowerCase() }}
       </h1>
-      <HomeItem
-        v-for="relatedCat of relatedCats"
-        :id="relatedCat.id"
-        :name="relatedCat.name"
-        :key="relatedCat.id"
-      />
+      <div class="related-catcards">
+        <HomeItem
+          v-for="relatedCat of relatedCats"
+          :id="relatedCat.id"
+          :name="relatedCat.name"
+          :key="relatedCat.id"
+        />
+      </div>
     </div>
   </section>
 </template>
@@ -80,17 +93,36 @@ export default {
       this.temperament = randomTemperament;
       this.relatedCats = relatedCatsLimited;
       console.log(`cats filterd on ${randomTemperament}`, relatedCatsLimited);
-      //   console.log(res.data);
+      this.currentCaturlH = currentCat.vcahospitals_url;
+      this.currentCaturlWiki = currentCat.wikipedia_url;
     });
   },
 };
 </script>
 
 <style scoped>
-.d-wrap {
+.details {
   display: flex;
+  padding: 20px;
+}
+.details-img {
+  width: 400px;
+  flex: 1;
+}
+.details-info {
+  padding: 20px;
+  flex: 1;
+}
+.img-cat {
+  width: 100%;
 }
 .related {
   background-color: lime;
+}
+.related-catcards {
+  display: flex;
+}
+h1 {
+  padding: 20px;
 }
 </style>
