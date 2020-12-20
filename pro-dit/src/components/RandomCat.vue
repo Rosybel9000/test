@@ -22,8 +22,8 @@
 </template>
 
 <script>
-import Axios from "axios";
 import HomeItem from "./HomeItem.vue";
+import { getRandomCat } from "../utils/catService";
 
 export default {
   name: "RandomCat",
@@ -31,24 +31,14 @@ export default {
   data() {
     return {
       newCat: null,
+
+      breeds: null,
     };
   },
   mounted() {
-    Axios.get(`https://api.thecatapi.com/v1/breeds`).then((res) => {
-      //   console.log(res.data);
-      // find a random id
-      // save random id in let
-      // give the var (the id ) to the homeitem component
-      const breeds = res.data;
-      this.newCat = breeds[Math.floor(Math.random() * breeds.length)];
-
-      //  this.$route.query
-      // console.log(newCat.id);
+    getRandomCat().then((cat) => {
+      this.newCat = cat;
     });
-
-    // Axios.get(
-    //   `https://api.thecatapi.com/v1/images/search?breed_ids=${this.id}`
-    // ).then((res) => {});
   },
 };
 </script>

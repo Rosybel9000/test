@@ -3,7 +3,7 @@ import App from "./App.vue";
 import VueRouter from "vue-router";
 import HomePage from "./components/HomePage.vue";
 import DetailPage from "./components/DetailPage.vue";
-import RandomCat from "./components/RandomCat";
+import RandomCat from "./components/RandomCat.vue";
 
 Vue.config.productionTip = false;
 

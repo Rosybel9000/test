@@ -4,7 +4,7 @@
       <img
         :key="id"
         :src="src"
-        :title="name + ' ' + 'nya'"
+        :title="`${name} nya`"
         :alt="name"
         class="cat-img"
       />
@@ -17,7 +17,14 @@
 </template>
 
 <script>
-import axios from "axios";
+import { getCatPicture } from "../utils/catService";
+
+/**
+ * @property {name} string
+ * @property {id} string
+ * @property {sortKey} string
+ * @property {sortValue} number
+ */
 
 export default {
   name: "HomeItem",
@@ -28,9 +35,7 @@ export default {
     };
   },
   mounted() {
-    axios
-      .get(`https://api.thecatapi.com/v1/images/search?breed_ids=${this.id}`)
-      .then((res) => (this.src = res.data[0].url));
+    getCatPicture(this.id).then((url) => (this.src = url));
   },
 };
 </script>
@@ -38,7 +43,7 @@ export default {
 <style scoped>
 .catcard {
   padding: 20px;
-  width: 350px;
+  max-width: 350px;
   background-color: #fff;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   margin: 25px;

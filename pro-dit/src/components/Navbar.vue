@@ -41,6 +41,7 @@ export default {
   display: flex;
   justify-content: space-between;
   position: sticky;
+  z-index: 999;
   top: 0;
   background-color: #bb00bb;
 }

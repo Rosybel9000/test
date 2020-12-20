@@ -1,62 +1,34 @@
 <template>
   <section class="wrap">
-    <div class="sidebar">
-      <form>
-        <div class="sidebar-button">
-          <p>sorted on {{ selected }}</p>
-          <span
-            v-for="option of [
-              'child_friendly',
-              'grooming',
-              'health_issues',
-              'dog_friendly',
-            ]"
-            :key="option"
-          >
-            <input
-              type="radio"
-              :id="option"
-              name="sort"
-              :value="option"
-              v-model="selected"
-            />
-            <label :for="option">{{ option.replace("_", " ") }}</label>
-          </span>
-          <!-- <span>
-            <input
-              type="radio"
-              id="childFriendly"
-              name="sort"
-              value="child_friendly"
-              v-model="selected"
-            />
-            <label for="childFriendly">child friendly</label>
-          </span>
-          <span>
-            <input
-              type="radio"
-              id="grooming"
-              name="sort"
-              value="grooming"
-              v-model="selected"
-            />
-            <label for="grooming">grooming</label>
-          </span>
-          <span>
-            <input
-              type="radio"
-              id="healthIssues"
-              name="sort"
-              value="health_issues"
-              v-model="selected"
-            />
-            <label for="healthIssues">health issues</label>
-          </span> -->
-        </div>
-      </form>
+    <div :class="`sidebar ${isHidden ? 'sidebar-hidden' : ''}`" id="sidebar">
+      <div class="sidebar-button">
+        <p>sorted on {{ selected }}</p>
+        <span
+          v-for="option of [
+            'child_friendly',
+            'grooming',
+            'health_issues',
+            'dog_friendly',
+          ]"
+          :key="option"
+        >
+          <input
+            type="radio"
+            :id="option"
+            name="sort"
+            :value="option"
+            v-model="selected"
+            v-on:click="isHidden = true"
+          />
+          <label :for="option">{{ option.replace("_", " ") }}</label>
+        </span>
+      </div>
     </div>
 
     <div class="content">
+      <button v-on:click="isHidden = !isHidden" type="button" class="filter">
+        filter toggle
+      </button>
       <HomeItem
         v-for="breed of breeds"
         :key="breed.id"
@@ -78,8 +50,11 @@
 </template>
 
 <script>
-import axios from "axios";
-import HomeItem from "./HomeItem.vue";
+import HomeItem from "./HomeItem";
+import catSort from "../utils/catSort";
+
+import { getCats } from "../utils/catService";
+
 export default {
   components: { HomeItem },
   name: "HomePage",
@@ -87,38 +62,22 @@ export default {
     return {
       breeds: null,
       selected: "grooming",
+      isHidden: false,
     };
   },
   methods: {
-    // catSort: (key) => {
-    //   return (a, b) => {
-    //     if (a[key] < b[key]) return 1;
-    //     else if (a[key] > b[key]) return -1;
-    //     return 0;
-    //   };
-    //},
-    catSort: function(key) {
-      return function(a, b) {
-        if (a[key] < b[key]) return 1;
-        if (a[key] > b[key]) return -1;
-        return 0;
-      };
-    },
+    catSort,
+    //     openFilter() {
+    //       console.log("it works");
+    // =    },
   },
   watch: {
     selected: function() {
       this.breeds = [...this.breeds.sort(this.catSort(this.selected))];
-      console.log(this.breeds);
     },
   },
   mounted() {
-    axios.get("https://api.thecatapi.com/v1/breeds?limit=10").then((res) => {
-      this.breeds = res.data.sort(this.catSort(this.selected));
-      console.log(this.breeds);
-    });
-    // axios.get(`https://api.thecatapi.com/v1/breeds`).then((res) => {
-    //   // console.log(res.data);
-    // });
+    getCats(this.selected, 10).then((res) => (this.breeds = res));
   },
 };
 </script>
@@ -126,12 +85,56 @@ export default {
 <style scoped>
 .wrap {
   display: flex;
+  position: relative;
+}
+
+.filter {
+  position: fixed;
+  top: 20%;
+  right: 0;
+  width: 150px;
+  height: 50px;
+  border: 1px solid blue;
+  border-radius: 25px 0 0 25px;
+  transition: width 1s ease;
+}
+
+.filter:focus {
+  outline: none;
+  box-shadow: 0px 0px 0px 1px rgb(0, 0, 0) inset;
+}
+
+.filter:hover {
+  width: 200px;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 720px) {
+  .wrap {
+    flex-direction: column;
+  }
+  .filter {
+    bottom: 10px;
+    top: auto;
+  }
+  .filter:hover {
+    width: 150px;
+  }
+}
+
+#sidebar {
 }
 
 .sidebar {
   background-color: rgba(76, 0, 130, 0.712);
   min-width: max-content;
   color: white;
+  transition: transform 0.5s ease;
+  transform: translateX(0);
+}
+
+.sidebar-hidden {
+  transform: translateX(-100%);
 }
 
 .sidebar-button {
@@ -144,10 +147,11 @@ export default {
 }
 
 .content {
-  background-color: maroon;
+  /* background-color: maroon; */
   flex-grow: 1;
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-evenly;
   padding: 10px;
 }
 </style>
