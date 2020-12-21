@@ -1,5 +1,9 @@
 <template>
-  <section>
+  <section
+    :style="{
+      paddingBottom: `${48}px`,
+    }"
+  >
     <div v-if="isLoading">Loading kitties uwu!!!!!</div>
 
     <div v-if="!isLoading" class="details">
@@ -67,9 +71,11 @@ export default {
     };
   },
   mounted() {
-    getCatPicture(this.$route.query.id).then((url) => (this.src = url));
+    getCatPicture(this.$route.query.id || "bamb").then(
+      (url) => (this.src = url)
+    );
 
-    getRelatedCats(this.$route.query.id).then(
+    getRelatedCats(this.$route.query.id || "bamb").then(
       ({ currentCat, temperament, relatedCats }) => {
         this.currentCat = currentCat;
         this.temperament = temperament;
@@ -88,7 +94,6 @@ export default {
   flex-direction: row-reverse;
   padding: 20px;
   align-items: center;
-  /* justify-content: ; */
 }
 .details-img {
   flex: 1;
@@ -106,9 +111,6 @@ export default {
 .img-cat {
   width: 101%;
   border-radius: 1%;
-}
-.related {
-  /* background-color: lime; */
 }
 .related-cat {
   align-items: center;

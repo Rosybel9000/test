@@ -28,7 +28,7 @@ export default {
     return {
       navLinks: [
         { name: "home", to: "/" },
-        { name: "my fav cat", to: "/details?id=awir" },
+        { name: "my fav cat", to: "/details?id=ocic" },
         { name: "random", to: "/randomcat" },
       ],
     };
@@ -40,14 +40,13 @@ export default {
 .nav {
   display: flex;
   justify-content: space-between;
-  position: sticky;
   z-index: 999;
   top: 0;
-  background-color: #bb00bb;
+  background-color: #d3b5e5;
 }
 
 .dropbtn {
-  background-color: #4caf50;
+  background-color: #bbe7fe;
   color: white;
   padding: 16px;
   font-size: 16px;
@@ -84,17 +83,27 @@ export default {
 }
 
 .dropdown:hover .dropbtn {
-  background-color: #3e8e41;
+  background-color: #bbe7fe;
 }
 
 .home-oval {
   width: 100px;
   height: 50px;
-  background: indigo;
+  background: #bbe7fe;
   border-radius: 100px / 50px;
   line-height: 50px;
   font-size: 16px;
   text-align: center;
+  clip-path: polygon(
+    35% 30%,
+    65% 30%,
+    70% 0,
+    100% 50%,
+    80% 100%,
+    20% 100%,
+    0 50%,
+    30% 0
+  );
 }
 
 .home-link {

@@ -17,6 +17,7 @@
           class="meme-cat"
         />
       </a>
+      <p>warning please enable desktop mode when ur on the phone</p>
     </div>
   </section>
 </template>
@@ -48,6 +49,7 @@ export default {
   padding: 50px;
   position: relative;
   display: flex;
+  justify-content: space-around;
 }
 .wrap-star {
   position: relative;
@@ -68,7 +70,7 @@ export default {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%) scale(0.5);
+  transform: translate(-50%, -50%);
 }
 .meme-cat {
   width: auto;
@@ -80,6 +82,11 @@ export default {
   }
   to {
     transform: rotate(359deg);
+  }
+}
+@media screen and (max-width: 720px) {
+  .container {
+    flex-direction: column;
   }
 }
 </style>

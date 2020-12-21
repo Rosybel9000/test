@@ -1,5 +1,5 @@
 <template>
-  <section class="wrap">
+  <section class="wrap" :style="{ paddingBottom: `${this.footerHeight}px` }">
     <div :class="`sidebar ${isHidden ? 'sidebar-hidden' : ''}`" id="sidebar">
       <div class="sidebar-button">
         <p>sorted on {{ selected }}</p>
@@ -38,14 +38,6 @@
         :sortValue="breed[selected]"
       />
     </div>
-    <!-- <div
-      style="border: 1px solid green"
-      v-for="breed of breeds"
-      :key="'prefix' + breed.id"
-    >
-      {{ breed.name }}{{ breed.health_issues }}{{ breed.grooming
-      }}{{ breed.child_friendly }}
-    </div> -->
   </section>
 </template>
 
@@ -63,13 +55,11 @@ export default {
       breeds: null,
       selected: "grooming",
       isHidden: false,
+      footerHeight: 24,
     };
   },
   methods: {
     catSort,
-    //     openFilter() {
-    //       console.log("it works");
-    // =    },
   },
   watch: {
     selected: function() {
@@ -78,6 +68,7 @@ export default {
   },
   mounted() {
     getCats(this.selected, 10).then((res) => (this.breeds = res));
+    this.footerHeight = this.$parent.$refs.tortillaRef.$el.clientHeight;
   },
 };
 </script>
@@ -94,9 +85,13 @@ export default {
   right: 0;
   width: 150px;
   height: 50px;
-  border: 1px solid blue;
+  background-color: #bbe7fe;
+  border: 1px solid #d3b5e5;
   border-radius: 25px 0 0 25px;
   transition: width 1s ease;
+  color: white;
+  font-size: large;
+  font-weight: bold;
 }
 
 .filter:focus {
@@ -114,7 +109,7 @@ export default {
     flex-direction: column;
   }
   .filter {
-    bottom: 10px;
+    bottom: 85px;
     top: auto;
   }
   .filter:hover {
@@ -122,11 +117,8 @@ export default {
   }
 }
 
-#sidebar {
-}
-
 .sidebar {
-  background-color: rgba(76, 0, 130, 0.712);
+  background-color: #ffd4db;
   min-width: max-content;
   color: white;
   transition: transform 0.5s ease;
@@ -147,7 +139,7 @@ export default {
 }
 
 .content {
-  /* background-color: maroon; */
+  background-color: #eff1db;
   flex-grow: 1;
   display: flex;
   flex-wrap: wrap;

@@ -9,10 +9,10 @@ Vue.config.productionTip = false;
 
 Vue.use(VueRouter);
 
-const routes = [
-  { path: "/", component: HomePage },
-  { path: "/details", component: DetailPage },
-  { path: "/randomcat", component: RandomCat },
+export const routes = [
+  { path: "/", name: "home", component: HomePage },
+  { path: "/details", name: "detail", component: DetailPage },
+  { path: "/randomcat", name: "rando", component: RandomCat },
 ];
 
 const router = new VueRouter({
