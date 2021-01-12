@@ -1,9 +1,5 @@
 <template>
-  <section
-    :style="{
-      paddingBottom: `${48}px`,
-    }"
-  >
+  <section class="container">
     <div v-if="isLoading">Loading kitties uwu!!!!!</div>
 
     <div v-if="!isLoading" class="details">
@@ -44,6 +40,7 @@
       </h1>
       <div v-if="relatedCats" class="related-catcards">
         <HomeItem
+          :href="true"
           v-for="relatedCat of relatedCats"
           :id="relatedCat.id"
           :name="relatedCat.name"
@@ -54,7 +51,7 @@
   </section>
 </template>
 
-<script>
+<script lang="ts">
 import HomeItem from "./HomeItem.vue";
 import { getCatPicture, getRelatedCats } from "../utils/catService";
 
@@ -63,10 +60,10 @@ export default {
   components: { HomeItem },
   data() {
     return {
-      src: null,
+      src: null as any,
       currentCat: null,
-      temperament: null,
-      relatedCats: [],
+      temperament: "",
+      relatedCats: [] as any,
       isLoading: true,
     };
   },
@@ -89,6 +86,9 @@ export default {
 </script>
 
 <style scoped>
+.container {
+  padding-bottom: 48px;
+}
 .details {
   display: flex;
   flex-direction: row-reverse;

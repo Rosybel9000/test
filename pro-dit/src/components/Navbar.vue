@@ -10,10 +10,10 @@
     </div>
 
     <div class="home-oval">
-      <router-link class="home-link" to="/">HOME</router-link>
+      <router-link class="home-link" to="/">home</router-link>
     </div>
 
-    <div class="dropbown">
+    <div class="dropdown">
       <router-link to="/randomcat">
         <button class="dropbtn">Random</button>
       </router-link>
@@ -21,7 +21,7 @@
   </nav>
 </template>
 
-<script>
+<script lang="ts">
 export default {
   name: "Navbar",
   data: () => {
@@ -112,5 +112,6 @@ export default {
   width: 100%;
   color: aliceblue;
   text-decoration: none;
+  text-transform: uppercase;
 }
 </style>

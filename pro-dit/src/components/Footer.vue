@@ -8,14 +8,14 @@
   </footer>
 </template>
 
-<script>
+<script lang="ts">
 import { routes } from "../main";
 
 export default {
   name: "Footer",
   data() {
     return {
-      sitemap: null,
+      sitemap: null as any,
     };
   },
   mounted() {

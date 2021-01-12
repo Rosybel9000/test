@@ -1,28 +1,33 @@
 <template>
   <section class="container">
-    <div v-if="newCat" class="wrap-star">
-      <img src="../assets/star.png" alt="star" class="star" />
-      <div class="star-over">
-        <HomeItem :id="newCat.id" :name="newCat.name" />
-      </div>
+    <div v-if="newCat" class="presentcat">
+      <h1>Random cat of present time</h1>
+      <HomeItem :id="newCat.id" :name="newCat.name" />
     </div>
 
-    <div class="wrap-love">
-      <h1>Not satisfied? try again by pressing on the cat below</h1>
-      <a href="/randomcat">
-        <img
-          src="../assets/trycat.png"
-          alt="do it again"
-          title="click me nya"
-          class="meme-cat"
-        />
-      </a>
-      <p>warning please enable desktop mode when ur on the phone</p>
+    <div class="anothercat">
+      <h1>Or get another adorable kitty by pressing below</h1>
+      <h3>if you can</h3>
+      <div class="anothercat-content">
+        <div class="catcard">
+          <button class="catcard-button" v-on:click="getRandomCat">
+            <img
+              src="../assets/phonecat.jpg"
+              alt="do it again"
+              title="click me nya"
+              class="cat-img"
+            />
+            <div class="catcard-title">
+              <h2>Get another adorable cat</h2>
+            </div>
+          </button>
+        </div>
+      </div>
     </div>
   </section>
 </template>
 
-<script>
+<script lang="ts">
 import HomeItem from "./HomeItem.vue";
 import { getRandomCat } from "../utils/catService";
 
@@ -32,14 +37,18 @@ export default {
   data() {
     return {
       newCat: null,
-
       breeds: null,
     };
   },
+  methods: {
+    getRandomCat: function() {
+      getRandomCat().then((cat) => {
+        this.newCat = cat;
+      });
+    },
+  },
   mounted() {
-    getRandomCat().then((cat) => {
-      this.newCat = cat;
-    });
+    getRandomCat().then((c) => (this.newCat = c));
   },
 };
 </script>
@@ -47,43 +56,23 @@ export default {
 <style scoped>
 .container {
   padding: 50px;
-  position: relative;
   display: flex;
   justify-content: space-around;
 }
-.wrap-star {
-  position: relative;
-  color: indigo;
-  font-size: large;
-  width: 500px;
-  height: 500px;
+.presentcat {
+  align-items: center;
 }
-.star {
-  position: absolute;
-  left: 0;
-  top: 0;
-  animation: rotation 11s infinite linear;
-  width: 100%;
-  height: 100%;
+.anothercat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-.star-over {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+
+.anothercat > h3 {
+  color: lightgray;
+  font-size: 10px;
 }
-.meme-cat {
-  width: auto;
-  padding: 25px;
-}
-@keyframes rotation {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(359deg);
-  }
-}
+
 @media screen and (max-width: 720px) {
   .container {
     flex-direction: column;

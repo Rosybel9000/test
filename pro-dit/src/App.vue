@@ -2,7 +2,7 @@
   <div id="app">
     <Navbar />
     <router-view></router-view>
-    <Footer ref="tortillaRef" />
+    <Footer />
   </div>
 </template>
 

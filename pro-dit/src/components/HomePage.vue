@@ -1,8 +1,8 @@
 <template>
-  <section class="wrap" :style="{ paddingBottom: `${this.footerHeight}px` }">
+  <section class="homepage-wrapper">
     <div :class="`sidebar ${isHidden ? 'sidebar-hidden' : ''}`" id="sidebar">
       <div class="sidebar-button">
-        <p>sorted on {{ selected }}</p>
+        <p>sorted on {{ selected.replace("_", " ") }}</p>
         <span
           v-for="option of [
             'child_friendly',
@@ -13,18 +13,17 @@
           :key="option"
         >
           <input
+            class="radio-button"
             type="radio"
             :id="option"
             name="sort"
             :value="option"
             v-model="selected"
-            v-on:click="isHidden = true"
           />
           <label :for="option">{{ option.replace("_", " ") }}</label>
         </span>
       </div>
     </div>
-
     <div class="content">
       <button v-on:click="isHidden = !isHidden" type="button" class="filter">
         filter toggle
@@ -41,10 +40,9 @@
   </section>
 </template>
 
-<script>
-import HomeItem from "./HomeItem";
+<script lang="ts">
+import HomeItem from "./HomeItem.vue";
 import catSort from "../utils/catSort";
-
 import { getCats } from "../utils/catService";
 
 export default {
@@ -52,7 +50,7 @@ export default {
   name: "HomePage",
   data() {
     return {
-      breeds: null,
+      breeds: null as any,
       selected: "grooming",
       isHidden: false,
       footerHeight: 24,
@@ -61,24 +59,23 @@ export default {
   methods: {
     catSort,
   },
+  mounted() {
+    getCats(this.selected, 10).then((res) => (this.breeds = res));
+  },
   watch: {
     selected: function() {
       this.breeds = [...this.breeds.sort(this.catSort(this.selected))];
     },
   },
-  mounted() {
-    getCats(this.selected, 10).then((res) => (this.breeds = res));
-    this.footerHeight = this.$parent.$refs.tortillaRef.$el.clientHeight;
-  },
 };
 </script>
 
 <style scoped>
-.wrap {
+.homepage-wrapper {
   display: flex;
   position: relative;
+  padding-bottom: 48px;
 }
-
 .filter {
   position: fixed;
   top: 20%;
@@ -93,28 +90,13 @@ export default {
   font-size: large;
   font-weight: bold;
 }
-
 .filter:focus {
   outline: none;
   box-shadow: 0px 0px 0px 1px rgb(0, 0, 0) inset;
 }
-
 .filter:hover {
   width: 200px;
   cursor: pointer;
-}
-
-@media screen and (max-width: 720px) {
-  .wrap {
-    flex-direction: column;
-  }
-  .filter {
-    bottom: 85px;
-    top: auto;
-  }
-  .filter:hover {
-    width: 150px;
-  }
 }
 
 .sidebar {
@@ -128,7 +110,6 @@ export default {
 .sidebar-hidden {
   transform: translateX(-100%);
 }
-
 .sidebar-button {
   display: flex;
   flex-direction: column;
@@ -145,5 +126,90 @@ export default {
   flex-wrap: wrap;
   justify-content: space-evenly;
   padding: 10px;
+}
+
+/* radio button styling */
+/* hiding the default button */
+[type="radio"] {
+  opacity: 0;
+}
+
+/* the new button */
+[type="radio"] + label {
+  position: relative;
+  padding-left: 30px;
+  cursor: pointer;
+  display: inline-block;
+  line-height: 25px;
+  /* color: red; */
+}
+
+/* new default button */
+[type="radio"] + label::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 18px;
+  height: 18px;
+  border-radius: 100%;
+  border: 2px solid #d3b5e5;
+  background-color: #fff;
+}
+[type="radio"]:checked + label::before {
+  content: "";
+  width: 18px;
+  height: 18px;
+}
+
+/* the selected dot inside */
+[type="radio"]:checked + label::after {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  width: 14px;
+  height: 14px;
+  border-radius: 100%;
+  background-color: #d3b5e5;
+  opacity: 1;
+  transform: scale(1);
+  transition: all 2s ease;
+}
+
+input:not(:checked) ~ label {
+  color: white;
+}
+input:checked ~ label {
+  /* change this to the color of the catacrds later */
+  color: black;
+  transition: all 2s ease;
+}
+
+/* animation between cheched and unchecked */
+[type="radio"]:not(:checked) + label::after {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  width: 14px;
+  height: 14px;
+  border-radius: 100%;
+  background-color: #fff;
+  opacity: 0;
+  transform: scale(0);
+}
+
+@media screen and (max-width: 720px) {
+  .homepage-wrapper {
+    flex-direction: column;
+  }
+  .filter {
+    bottom: 85px;
+    top: auto;
+  }
+  .filter:hover {
+    width: 150px;
+  }
 }
 </style>
